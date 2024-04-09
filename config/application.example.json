@@ -1,0 +1,25 @@
+{
+  "players": [
+    {
+      "id": 3,
+      "name": "TV 2019",
+      "platform": "Tizen",
+      "clientIdentifier": "th1s1s4u71lutka7aq3zlcih",
+      "createdAt": 1710924258000,
+      "note": "Living room TV"
+    }
+  ],
+  "bulbs": [
+    {
+      "id": "bulbasaur",
+      "note": "Living room Bulb"
+    }
+  ],
+  "associations": [
+    {
+      "player": "th1s1s4u71lutka7aq3zlcih",
+      "bulb": "bulbasaur",
+      "note": "Living room TV switches Living room Bulb."
+    }
+  ]
+}

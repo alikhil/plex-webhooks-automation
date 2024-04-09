@@ -3,6 +3,9 @@ import {
   api as hueApi,
   ApiError,
 } from 'node-hue-api';
+import applicationConfig from './config/application.json';
+import {Bulb, BulbMethod} from "./types/config/bulb";
+import * as fs from "fs";
 
 const appName = 'plex-home-automation';
 const deviceName = 'webhook-handler';
@@ -78,11 +81,61 @@ async function main() {
 
   // If we have a valid authenticatedApi instance, we can start to use it to interact with the Hue Bridge
   console.log('Authenticated API created!');
-  const lights = authenticatedApi.lights.getAll();
+  const lights = await authenticatedApi.lights.getAll();
 
   console.log('Getting lights...')
   console.log('lights:', lights);
 
-  // TODO: Upsert the "bulbs" section of the application config file.
+  // loop lights and see if light.id is in the bulbs
+  const applicationBulbs: Bulb[] = applicationConfig.bulbs;
+  const formattedLights = [];
+
+  for (const light of lights) {
+    const formattedLight: Bulb = {
+      id: light.id.toString(),
+      method: BulbMethod.HUE,
+
+      note: light.name,
+    };
+
+    formattedLights.push(formattedLight);
+
+    // loop bulbs and see if formattedLight.id is in the bulbs
+    const bulbIndex = applicationBulbs.findIndex((b) => b.id === formattedLight.id);
+
+    if (bulbIndex !== -1) {
+      console.log('Bulb already exists, updating:', applicationBulbs[bulbIndex]);
+      applicationBulbs[bulbIndex] = {
+        ...applicationBulbs[bulbIndex],
+        ...formattedLight,
+      };
+      continue;
+    }
+
+    console.log('Bulb does not exist, adding:', formattedLight);
+    applicationBulbs.push({
+      ...formattedLight,
+      note: '',
+    });
+  }
+
+  console.log('Lights:', formattedLights);
+
+  // Save the updated application config
+  console.log('Saving application config...');
+  console.log('Application config:', applicationConfig);
+
+  // Save the updated application config
+  console.log('Saving application config...');
+
+  // write to file (overwrite existing data)
+  fs.writeFileSync('./config/application.json', JSON.stringify({
+    ...applicationConfig,
+    ...{
+      bulbs: applicationBulbs,
+    }
+  }, null, 2));
+
+  console.log('Application config updated!');
 }
 main();

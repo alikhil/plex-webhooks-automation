@@ -4,3 +4,7 @@ export interface Bulb {
 
   note: string;
 }
+
+export enum BulbMethod {
+  HUE = 'hue',
+}

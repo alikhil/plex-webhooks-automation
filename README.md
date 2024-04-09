@@ -21,6 +21,7 @@ If you would rather set it up manually use the manual configuration steps below.
 
 ## Manual Configuration
 - You can manually configure the application config in `config/application.json`
+- I would recommend using the `config/aplication.example.json` as a template and working from there.
 - Get device id from https://app.plex.tv/desktop/#!/settings/devices/all and add it to the `device` field in the config.
 - Find your bulb ids in whatever home lighting integration you're using.
 
