@@ -1,5 +1,5 @@
-import {BaseWebhookPayload} from './base';
+import {BaseMediaWebhookPayload} from './base';
 
-export interface MediaStopWebhookPayload extends BaseWebhookPayload {
+export interface MediaStopWebhookPayload extends BaseMediaWebhookPayload {
   event: 'media.stop';
 }

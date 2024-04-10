@@ -17,6 +17,9 @@ export interface BaseWebhookPayload {
     title: string;
     uuid: string;
   };
+}
+
+export interface BaseMediaWebhookPayload extends BaseWebhookPayload {
   Metadata: {
     librarySectionType: string;
     ratingKey: string;

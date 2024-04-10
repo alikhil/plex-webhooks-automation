@@ -21,6 +21,16 @@ app.post('/', upload.single('thumb'), async (req, res) => {
 
   console.log('Got webhook for', payload.event);
 
+  if (
+    payload.event !== 'media.play'
+    && payload.event !== 'media.pause'
+    && payload.event !== 'media.resume'
+    && payload.event !== 'media.stop'
+  ) {
+    console.log('Ignoring incompatible event');
+    return res.sendStatus(200);
+  }
+
   if (payload.Metadata.type === 'track') {
     console.log('Ignoring track event');
     return res.sendStatus(200);
