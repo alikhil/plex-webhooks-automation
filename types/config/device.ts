@@ -1,4 +1,4 @@
-export interface Player {
+export interface Device {
   id: number;
   name: string;
   platform: string;

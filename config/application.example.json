@@ -1,5 +1,5 @@
 {
-  "players": [
+  "devices": [
     {
       "id": 3,
       "name": "TV 2019",
@@ -9,17 +9,17 @@
       "note": "Living room TV"
     }
   ],
-  "bulbs": [
+  "lights": [
     {
       "id": "bulbasaur",
-      "note": "Living room Bulb"
+      "note": "Living room Light"
     }
   ],
   "associations": [
     {
-      "player": "th1s1s4u71lutka7aq3zlcih",
-      "bulb": "bulbasaur",
-      "note": "Living room TV switches Living room Bulb."
+      "deviceId": "th1s1s4u71lutka7aq3zlcih",
+      "lightId": "bulbasaur",
+      "note": "Living room TV switches Living room Light."
     }
   ]
 }

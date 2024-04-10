@@ -1,8 +1,10 @@
 import {JSDOM} from 'jsdom';
-import applicationConfig from './config/application.json';
 import * as fs from 'fs';
-import {Player} from './types/config/player';
-import {ApplicationConfig} from './types/config/application';
+import {Device} from './types/config/device';import rawApplicationConfig from './config/application.json';
+import {ApplicationConfig} from "./types/config/application";
+const applicationConfig = rawApplicationConfig as ApplicationConfig;
+
+console.log("Application config:", applicationConfig);
 
 const plexApiKey = '';
 const plexServerUrl = '127.0.0.1';
@@ -30,7 +32,7 @@ async function main() {
 
   // Get all Device elements
   const devices = doc.querySelectorAll('Device');
-  const applicationPlayers: Player[] = applicationConfig.players;
+  const applicationDevices: Device[] = applicationConfig.devices;
 
   // Turn the Device elements into objects
   const formattedDevices = [];
@@ -45,20 +47,20 @@ async function main() {
 
     formattedDevices.push(formattedDevice);
 
-    // loop players and see if formattedDevice.clientIdentifier is in the players
-    const playerIndex = applicationPlayers.findIndex((p) => p.clientIdentifier === formattedDevice.clientIdentifier);
+    // loop devices and see if formattedDevice.clientIdentifier is in the devices
+    const deviceIndex = applicationDevices.findIndex((d) => d.clientIdentifier === formattedDevice.clientIdentifier);
 
-    if (playerIndex !== -1) {
-      console.log('Player already exists, updating:', applicationPlayers[playerIndex]);
-      applicationPlayers[playerIndex] = {
-        ...applicationPlayers[playerIndex],
+    if (deviceIndex !== -1) {
+      console.log('Device already exists, updating:', applicationDevices[deviceIndex]);
+      applicationDevices[deviceIndex] = {
+        ...applicationDevices[deviceIndex],
         ...formattedDevice,
       };
       continue;
     }
 
-    console.log('Player does not exist, adding:', formattedDevice);
-    applicationPlayers.push({
+    console.log('Device does not exist, adding:', formattedDevice);
+    applicationDevices.push({
       ...formattedDevice,
       note: '',
     });
@@ -69,7 +71,7 @@ async function main() {
   // Save the updated application config
   console.log('Updating application config...');
 
-  (applicationConfig as ApplicationConfig).players = applicationPlayers;
+  applicationConfig.devices = applicationDevices;
 
   console.log('applicationConfig:', applicationConfig);
 

@@ -3,17 +3,20 @@ import {
   api as hueApi,
   ApiError,
 } from 'node-hue-api';
-import applicationConfig from './config/application.json';
-import {Bulb, BulbMethod} from './types/config/bulb';
+import {Light, SwitchMethod} from './types/config/light';
 import * as fs from 'fs';
-import {ApplicationConfig} from './types/config/application';
+import rawApplicationConfig from './config/application.json';
+import {ApplicationConfig} from "./types/config/application";
+const applicationConfig = rawApplicationConfig as ApplicationConfig;
+
+console.log("Application config:", applicationConfig);
 
 const appName = 'plex-home-automation';
 const deviceName = 'webhook-handler';
 
-const username = `${appName}#${deviceName}`;
+export const username = `${appName}#${deviceName}`;
 
-async function discoverBridge() {
+export async function discoverBridge() {
   const discoveryResults = await discovery.nupnpSearch();
 
   if (discoveryResults.length === 0) {
@@ -87,34 +90,34 @@ async function main() {
   console.log('Getting lights...')
   console.log('lights:', lights);
 
-  // loop lights and see if light.id is in the bulbs
-  const applicationBulbs: Bulb[] = applicationConfig.bulbs;
+  // loop lights and see if light.id is in the lights
+  const applicationLights: Light[] = applicationConfig.lights;
   const formattedLights = [];
 
   for (const light of lights) {
-    const formattedLight: Bulb = {
+    const formattedLight: Light = {
       id: light.id.toString(),
-      method: BulbMethod.HUE,
+      switchMethod: SwitchMethod.HUE,
 
       note: light.name,
     };
 
     formattedLights.push(formattedLight);
 
-    // loop bulbs and see if formattedLight.id is in the bulbs
-    const bulbIndex = applicationBulbs.findIndex((b) => b.id === formattedLight.id);
+    // loop lights and see if formattedLight.id is in the lights
+    const lightIndex = applicationLights.findIndex((l) => l.id === formattedLight.id);
 
-    if (bulbIndex !== -1) {
-      console.log('Bulb already exists, updating:', applicationBulbs[bulbIndex]);
-      applicationBulbs[bulbIndex] = {
-        ...applicationBulbs[bulbIndex],
+    if (lightIndex !== -1) {
+      console.log('Light already exists, updating:', applicationLights[lightIndex]);
+      applicationLights[lightIndex] = {
+        ...applicationLights[lightIndex],
         ...formattedLight,
       };
       continue;
     }
 
-    console.log('Bulb does not exist, adding:', formattedLight);
-    applicationBulbs.push({
+    console.log('Light does not exist, adding:', formattedLight);
+    applicationLights.push({
       ...formattedLight,
       note: '',
     });
@@ -124,7 +127,7 @@ async function main() {
 
   // Save the updated application config
   console.log('Saving application config...');
-  (applicationConfig as ApplicationConfig).bulbs = applicationBulbs;
+  applicationConfig.lights = applicationLights;
   console.log('Application config:', applicationConfig);
 
   // Save the updated application config

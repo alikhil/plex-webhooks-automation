@@ -1,13 +1,13 @@
-import {Bulb} from "./bulb";
-import {Player} from "./player";
+import {Light} from "./light";
+import {Device} from "./device";
 
 export interface ApplicationConfig {
-  players: Player[];
-  bulbs: Bulb[];
+  devices: Device[];
+  lights: Light[];
 
   associations: {
-    playerUuid: Player['clientIdentifier'];
-    bulbId: Bulb['id'];
+    deviceId: Device['clientIdentifier'];
+    lightId: Light['id'];
 
     note: string;
   }[];
