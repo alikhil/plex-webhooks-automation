@@ -11,7 +11,7 @@ const plexServerUrl = '127.0.0.1';
 const plexServerPort = 32400;
 
 async function main() {
-  if (plexApiKey === "") {
+  if (plexApiKey.length === 0) {
     // TODO: Figure out a way of getting it automatically
     console.error('Please set the plexApiKey variable to your Plex API key.');
     return;
@@ -37,6 +37,10 @@ async function main() {
   // Turn the Device elements into objects
   const formattedDevices = [];
   for (const device of devices) {
+    if (!device.getAttribute('clientIdentifier')) {
+      continue;
+    }
+
     const formattedDevice = {
       id: parseInt(device.getAttribute('id') || '-1', 10),
       name: device.getAttribute('name') || 'Unknown',
