@@ -11,4 +11,6 @@ export interface ApplicationConfig {
 
     note: string;
   }[];
+
+  hueUsername: string;
 }

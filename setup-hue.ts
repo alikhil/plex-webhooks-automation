@@ -39,26 +39,33 @@ async function discoverAndAuthenticate() {
 
   console.log('Bridge found at IP address:', ipAddress);
 
-  console.log('Creating local API instance...');
-  // Create an unauthenticated instance of the Hue API so that we can create a new user
-  const unauthenticatedApi = await hueApi.createLocal(ipAddress).connect();
-  console.log('Local API instance created!')
-
   let createdUser;
   try {
-    console.log('Not found! Trying to create a new user...');
-    createdUser = await unauthenticatedApi.users.createUser(appName, deviceName);
-    console.log('*******************************************************************************\n');
-    console.log('User has been created on the Hue Bridge. The following username can be used to\n' +
-      'authenticate with the Bridge and provide full local access to the Hue Bridge.\n' +
-      'YOU SHOULD TREAT THIS LIKE A PASSWORD\n');
-    console.log(`Hue Bridge User: ${createdUser.username}`);
-    console.log(`Hue Bridge User Client Key: ${createdUser.clientkey}`);
-    console.log('*******************************************************************************\n');
+    if (applicationConfig.hueUsername.length === 0) {
+      console.log('Creating local API instance...');
+      // Create an unauthenticated instance of the Hue API so that we can create a new user
+      const unauthenticatedApi = await hueApi.createLocal(ipAddress).connect();
+      console.log('Local API instance created!')
+
+      createdUser = await unauthenticatedApi.users.createUser(appName, deviceName);
+      console.log('*******************************************************************************\n');
+      console.log('User has been created on the Hue Bridge. The following username can be used to\n' +
+        'authenticate with the Bridge and provide full local access to the Hue Bridge.\n' +
+        'YOU SHOULD TREAT THIS LIKE A PASSWORD\n');
+      console.log(`Hue Bridge User: ${createdUser.username}`);
+      console.log(`Hue Bridge User Client Key: ${createdUser.clientkey}`);
+      console.log('*******************************************************************************\n');
+
+      // Save username to applicationConfig
+      applicationConfig.hueUsername = createdUser.username;
+
+      // Save the username to the applicationConfig
+      fs.writeFileSync('./config/application.json', JSON.stringify(applicationConfig, null, 2));
+    }
 
     console.log('Creating authenticated API instance...');
     // Create a new API instance that is authenticated with the new user we created
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(username);
+    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(applicationConfig.hueUsername);
     console.log('Created!');
 
     // Do something with the authenticated user/api
