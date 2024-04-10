@@ -1,7 +1,7 @@
-import {Light, SwitchMethod} from 'types/config/light';
+import {Light, SwitchMethod} from '../types/config/light';
 import switchHueLight from "./hue";
 
-export default async function switchLight(light: Light, shouldTurnOn: boolean): Promise<void> {
+export async function switchLight(light: Light, shouldTurnOn: boolean): Promise<void> {
   console.log('Switching light', light.id, 'using switchMethod', light.switchMethod);
 
   if (light.switchMethod === SwitchMethod.HUE) {

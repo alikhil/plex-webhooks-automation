@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { WebhookPayload } from 'types/payloads';
-import switchLight from "./switches";
+import { switchLight } from './switches';
 
 import rawApplicationConfig from './config/application.json';
 import {ApplicationConfig} from "./types/config/application";
@@ -12,8 +12,13 @@ console.log("Application config:", applicationConfig);
 const app = express();
 const upload = multer({ dest: '/tmp/' });
 
-app.post('/', upload.single('thumb'), async (req, res, next) => {
-  const payload = req.body as WebhookPayload; // Removed .json() since req.body is already parsed by multer.
+app.use(express.json());
+
+app.post('/', upload.single('thumb'), async (req, res) => {
+  const payload = JSON.parse(req.body.payload) as WebhookPayload; // Removed .json() since req.body is already parsed by multer.
+
+  console.log('payload:', payload);
+
   console.log('Got webhook for', payload.event);
 
   if (payload.Metadata.type === 'track') {

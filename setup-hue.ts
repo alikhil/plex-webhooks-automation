@@ -1,5 +1,4 @@
 import {
-  discovery,
   api as hueApi,
   ApiError,
 } from 'node-hue-api';
@@ -7,26 +6,13 @@ import {Light, SwitchMethod} from './types/config/light';
 import * as fs from 'fs';
 import rawApplicationConfig from './config/application.json';
 import {ApplicationConfig} from "./types/config/application";
+import {discoverBridge} from "./switches/hue";
 const applicationConfig = rawApplicationConfig as ApplicationConfig;
 
 console.log("Application config:", applicationConfig);
 
 const appName = 'plex-home-automation';
 const deviceName = 'webhook-handler';
-
-export const username = `${appName}#${deviceName}`;
-
-export async function discoverBridge() {
-  const discoveryResults = await discovery.nupnpSearch();
-
-  if (discoveryResults.length === 0) {
-    console.error('Failed to resolve any Hue Bridges');
-    return null;
-  } else {
-    // Ignoring that you could have more than one Hue Bridge on a network as this is unlikely in 99.9% of users situations
-    return discoveryResults[0].ipaddress;
-  }
-}
 
 async function discoverAndAuthenticate() {
   console.log('Finding bridge...');
