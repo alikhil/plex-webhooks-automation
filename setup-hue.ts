@@ -4,8 +4,9 @@ import {
   ApiError,
 } from 'node-hue-api';
 import applicationConfig from './config/application.json';
-import {Bulb, BulbMethod} from "./types/config/bulb";
-import * as fs from "fs";
+import {Bulb, BulbMethod} from './types/config/bulb';
+import * as fs from 'fs';
+import {ApplicationConfig} from './types/config/application';
 
 const appName = 'plex-home-automation';
 const deviceName = 'webhook-handler';
@@ -123,18 +124,14 @@ async function main() {
 
   // Save the updated application config
   console.log('Saving application config...');
+  (applicationConfig as ApplicationConfig).bulbs = applicationBulbs;
   console.log('Application config:', applicationConfig);
 
   // Save the updated application config
   console.log('Saving application config...');
 
   // write to file (overwrite existing data)
-  fs.writeFileSync('./config/application.json', JSON.stringify({
-    ...applicationConfig,
-    ...{
-      bulbs: applicationBulbs,
-    }
-  }, null, 2));
+  fs.writeFileSync('./config/application.json', JSON.stringify(applicationConfig, null, 2));
 
   console.log('Application config updated!');
 }

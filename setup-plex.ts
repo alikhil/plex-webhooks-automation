@@ -1,10 +1,11 @@
 import {JSDOM} from 'jsdom';
 import applicationConfig from './config/application.json';
-import * as fs from "fs";
-import {Player} from "./types/config/player";
+import * as fs from 'fs';
+import {Player} from './types/config/player';
+import {ApplicationConfig} from './types/config/application';
 
-const plexApiKey = "";
-const plexServerUrl = "127.0.0.1";
+const plexApiKey = '';
+const plexServerUrl = '127.0.0.1';
 const plexServerPort = 32400;
 
 async function main() {
@@ -67,15 +68,13 @@ async function main() {
 
   // Save the updated application config
   console.log('Updating application config...');
+
+  (applicationConfig as ApplicationConfig).players = applicationPlayers;
+
   console.log('applicationConfig:', applicationConfig);
 
   // write to file (overwrite existing data)
-  fs.writeFileSync('./config/application.json', JSON.stringify({
-    ...applicationConfig,
-    ...{
-      players: applicationPlayers,
-    }
-  }, null, 2));
+  fs.writeFileSync('./config/application.json', JSON.stringify(applicationConfig, null, 2));
 
   console.log('Application config updated!');
 }
