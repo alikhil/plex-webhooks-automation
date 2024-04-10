@@ -9,6 +9,7 @@ This project allows you to automatically control the lights in your house when u
 - Install the latest LTS version of [node.js](https://nodejs.org/en/).
 - Clone the repository.
 - Install dependencies using `npm install`.
+- Copy `config/application.base.json` to `config/application.json`.
 
 ## Automatic Configuration
 We've created setup scripts to help configure the application for you:
