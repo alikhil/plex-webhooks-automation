@@ -15,7 +15,7 @@ const upload = multer({ dest: '/tmp/' });
 app.use(express.json());
 
 app.post('/', upload.single('thumb'), async (req, res) => {
-  const payload = JSON.parse(req.body.payload) as WebhookPayload; // Removed .json() since req.body is already parsed by multer.
+  const payload = JSON.parse(req.body.payload) as WebhookPayload;
 
   console.log('payload:', payload);
 
