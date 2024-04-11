@@ -36,9 +36,7 @@ app.post('/', upload.single('thumb'), async (req, res) => {
     return res.sendStatus(200);
   }
 
-  const {associations} = applicationConfig;
-
-  for (const {deviceId, lightId} of associations) {
+  for (const {deviceId, lightId} of applicationConfig.associations) {
     if (payload.Player.uuid !== deviceId) {
       continue;
     }
