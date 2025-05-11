@@ -3,11 +3,7 @@ import multer from 'multer';
 import { WebhookPayload } from 'types/payloads';
 import { switchLight } from './switches';
 
-import rawApplicationConfig from './config/application.json';
-import {ApplicationConfig} from "./types/config/application";
-const applicationConfig = rawApplicationConfig as ApplicationConfig;
-
-console.log("Application config:", applicationConfig);
+import applicationConfig from './config';
 
 const app = express();
 const upload = multer({ dest: '/tmp/' });
@@ -66,5 +62,5 @@ app.post('/', upload.single('thumb'), async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(12000);
+app.listen(12000, '0.0.0.0');
 console.log('Listening for incoming webhooks on port 12000');

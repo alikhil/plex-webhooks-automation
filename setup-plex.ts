@@ -1,9 +1,7 @@
 import {JSDOM} from 'jsdom';
 import * as fs from 'fs';
-import {Device} from './types/config/device';import rawApplicationConfig from './config/application.json';
-import {ApplicationConfig} from "./types/config/application";
-const applicationConfig = rawApplicationConfig as ApplicationConfig;
-
+import {Device} from './types/config/device';
+import applicationConfig from './config';
 console.log("Application config:", applicationConfig);
 
 const plexApiKey = '';

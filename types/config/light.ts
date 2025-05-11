@@ -3,8 +3,10 @@ export interface Light {
   switchMethod: SwitchMethod;
 
   note: string;
+  shellyDeviceAddress?: string;
 }
 
 export enum SwitchMethod {
   HUE = 'hue',
+  SHELLY = 'shelly',
 }

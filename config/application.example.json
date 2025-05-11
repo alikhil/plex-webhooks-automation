@@ -7,12 +7,26 @@
       "clientIdentifier": "th1s1s4u71lutka7aq3zlcih",
       "createdAt": 1710924258000,
       "note": "Living room TV"
+    },
+    {
+      "id": 4,
+      "name": "TV 2019",
+      "platform": "Android",
+      "clientIdentifier": "aoesuhtasoeusaoeuhsaoeu",
+      "createdAt": 1710924258000,
+      "note": "Bedroom TV"
     }
   ],
   "lights": [
     {
       "id": "bulbasaur",
       "note": "Living room Light"
+    },
+    {
+      "id": "shelly-bedroom-garland",
+      "note": "Bedroom garland light plug",
+      "shellyDeviceAddress": "192.168.1.100",
+      "switchMethod" : "shelly"
     }
   ],
   "associations": [
@@ -20,6 +34,11 @@
       "deviceId": "th1s1s4u71lutka7aq3zlcih",
       "lightId": "bulbasaur",
       "note": "Living room TV switches Living room Light."
+    },
+    {
+      "deviceId": "aoesuhtasoeusaoeuhsaoeu",
+      "lightId": "shelly-bedroom-garland",
+      "note": "Bedroom TV switches Bedroom Light."
     }
   ],
   "hueUsername": "th1siz4hues3rnam3"

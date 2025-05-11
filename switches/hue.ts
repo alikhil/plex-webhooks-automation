@@ -1,9 +1,9 @@
 import type {Light} from '../types/config/light';
 import {api as hueApi, discovery} from "node-hue-api";
-import rawApplicationConfig from '../config/application.json';
+
 import {ApplicationConfig} from "../types/config/application";
 import {Api} from "node-hue-api/dist/cjs/api/Api";
-const applicationConfig = rawApplicationConfig as ApplicationConfig;
+import applicationConfig from "../config";
 
 console.log("Application config:", applicationConfig);
 

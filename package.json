@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx ts-node .\\index.ts",
-    "setup-hue": "npx ts-node .\\setup-hue.ts",
-    "setup-plex": "npx ts-node .\\setup-plex.ts",
-    "start": "node .\\build\\index.js",
+    "dev": "npx ts-node index.ts",
+    "setup-hue": "npx ts-node ./setup-hue.ts",
+    "setup-plex": "npx ts-node ./setup-plex.ts",
+    "start": "node ./build/index.js",
     "build": "tsc --build"
   },
   "dependencies": {

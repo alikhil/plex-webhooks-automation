@@ -4,12 +4,8 @@ import {
 } from 'node-hue-api';
 import {Light, SwitchMethod} from './types/config/light';
 import * as fs from 'fs';
-import rawApplicationConfig from './config/application.json';
-import {ApplicationConfig} from "./types/config/application";
 import {discoverBridge} from "./switches/hue";
-const applicationConfig = rawApplicationConfig as ApplicationConfig;
-
-console.log("Application config:", applicationConfig);
+import applicationConfig from './config';
 
 const appName = 'plex-home-automation';
 const deviceName = 'webhook-handler';
